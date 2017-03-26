@@ -19,8 +19,7 @@ defmodule HigherOrderFunctionsTest do
       assert func.(2) == 64
       {:messages, message} = :erlang.process_info(self(), :messages)
 
-      assert_received {:square, 2}
-      assert_received {:cube, 4}
+      assert message == [{:square, 2},{:cube, 4}]
     end
   end
 
