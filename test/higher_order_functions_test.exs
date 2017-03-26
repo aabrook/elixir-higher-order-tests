@@ -85,6 +85,16 @@ defmodule HigherOrderFunctionsTest do
   end
 
   describe "compose" do
+    test "Logs!" do
+      spied = spy(&IO.puts/1, "inspect")
+      logged_func = HigherOrderFunctions.compose(spied, &HigherOrderFunctions.square/1)
+
+      logged_func.(2)
+
+      {:messages, message} = :erlang.process_info(self(), :messages)
+      assert message = [{:inspect, %{name: "&IO.puts/1", result: :ok, called_with: [4]}}]
+    end
+
     test "calls with spy" do
       sq = spy(&HigherOrderFunctions.square/1, "the square")
       cu = spy(&HigherOrderFunctions.cube/1, "the cube")
