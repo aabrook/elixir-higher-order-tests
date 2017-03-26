@@ -61,7 +61,6 @@ defmodule HigherOrderFunctionsTest do
     test "what does the spy get" do
       spied = spy_arity(2, &Enum.take/2, "taking")
       spied.([1, 2, 3], 1)
-      IO.inspect :erlang.process_info(self(), :messages)
 
       receive do
         {:taking, message} ->
@@ -95,8 +94,8 @@ defmodule HigherOrderFunctionsTest do
 
       square_name = "#{inspect &HigherOrderFunctions.square/1}"
       cube_name = "#{inspect &HigherOrderFunctions.cube/1}"
-      assert_received {:"the square", %{called_with: [2], name: square_name}}
-      assert_received {:"the cube", %{called_with: [4], name: cube_name}}
+      assert_received {:"the square", %{called_with: [2], name: ^square_name}}
+      assert_received {:"the cube", %{called_with: [4], name: ^cube_name}}
     end
 
     test "calls right function first" do
@@ -125,9 +124,5 @@ defmodule HigherOrderFunctionsTest do
 
       assert message == [{:square, 2},{:cube, 4}]
     end
-  end
-
-  test "the truth" do
-    assert 1 + 1 == 2
   end
 end
