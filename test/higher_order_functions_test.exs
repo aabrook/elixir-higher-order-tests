@@ -18,7 +18,7 @@ defmodule HigherOrderFunctionsTest do
         String.to_atom(label),
         %{
           name: "#{inspect func}",
-          arg: "#{inspect x}"
+          args: x
         }
       }
       func.(x)
@@ -34,6 +34,10 @@ defmodule HigherOrderFunctionsTest do
       func.(2)
       IO.inspect :erlang.process_info(self(), :messages)
 
+      square_name = "#{inspect &HigherOrderFunctions.square/1}"
+      cube_name = "#{inspect &HigherOrderFunctions.cube/1}"
+      assert_received {:"the square", %{args: 2, name: square_name}}
+      assert_received {:"the cube", %{args: 4, name: cube_name}}
     end
 
     test "calls right function first" do
