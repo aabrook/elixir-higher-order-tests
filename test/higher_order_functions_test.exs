@@ -27,12 +27,13 @@ defmodule HigherOrderFunctionsTest do
 
   describe "compose" do
     test "calls with spy" do
-      sq = spy(&square/1, "the square")
-      cu = spy(&cube/1, "the cube")
+      sq = spy(&HigherOrderFunctions.square/1, "the square")
+      cu = spy(&HigherOrderFunctions.cube/1, "the cube")
       func = HigherOrderFunctions.compose(cu, sq)
 
       func.(2)
       IO.inspect :erlang.process_info(self(), :messages)
+
     end
 
     test "calls right function first" do

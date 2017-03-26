@@ -21,4 +21,12 @@ defmodule HigherOrderFunctions do
       f.(g.(x))
     end
   end
+
+  def square(n) do
+    n * n
+  end
+
+  def cube(n) do
+    n * n * n
+  end
 end
