@@ -91,7 +91,7 @@ defmodule HigherOrderFunctionsTest do
 
       logged_func.(2)
 
-      {:messages, message} = :erlang.process_info(self(), :messages)
+      message = Process.info(self())[:messages]
       assert message = [{:inspect, %{name: "&IO.puts/1", result: :ok, called_with: [4]}}]
     end
 
@@ -121,7 +121,7 @@ defmodule HigherOrderFunctionsTest do
       func = HigherOrderFunctions.compose(cu, sq)
 
       assert func.(2) == 64
-      {:messages, message} = :erlang.process_info(self(), :messages)
+      message = Process.info(self())[:messages]
 
       assert message == [{:square, 2},{:cube, 4}]
     end
@@ -130,7 +130,7 @@ defmodule HigherOrderFunctionsTest do
       func = HigherOrderFunctions.compose(&cube/1, &square/1)
 
       assert func.(2) == 64
-      {:messages, message} = :erlang.process_info(self(), :messages)
+      message = Process.info(self())[:messages]
 
       assert message == [{:square, 2},{:cube, 4}]
     end
